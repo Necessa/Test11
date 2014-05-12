@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/LinearLayout01"
+    android:orientation="vertical" >
+    
+    <ImageView
+        android:src="@drawable/me_image"
+        android:id="@+id/MeImage"
+        android:maxWidth="150dp"
+        android:maxHeight="150dp"
+        android:adjustViewBounds="true"
+        android:layout_margin="5dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" 
+    />
+    <ListView android:layout_width="wrap_content"   
+          android:layout_height="wrap_content" 
+          android:layout_below="@id/MeImage" 
+          android:id="@+id/MeListView"  
+          /> 
+          
+   <TextView 
+        android:layout_height="wrap_content"   
+	    android:textSize="20sp"   
+	    android:layout_width="fill_parent"  
+	    android:layout_below="@id/MeListView"
+	    android:id="@+id/MeAction"  
+	    android:text="个人动态"
+        />
+    <HorizontalScrollView 
+    android:layout_width="fill_parent"
+    android:layout_below="@id/MeAction"
+    android:layout_height="fill_parent" >
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hello"
+                android:textSize="90sp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hello"
+                android:textSize="90sp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hello"
+                android:textSize="90sp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hello"
+                android:textSize="90sp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hello"
+                android:textSize="90sp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hello"
+                android:textSize="90sp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hello"
+                android:textSize="90sp" />
+        </LinearLayout>
+    </ScrollView>
+</HorizontalScrollView>
+</RelativeLayout>

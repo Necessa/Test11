@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_login" >
+ <!-- padding 内边距   layout_margin 外边距
+  		android:layout_alignParentTop 布局的位置是否处于顶部 -->
+
+    <RelativeLayout
+        android:id="@+id/login_div"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dip"
+        android:background="@drawable/background_login_div"
+        android:padding="15dip" >
+
+        <RelativeLayout
+            android:id="@+id/login_user_layout"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp" >
+
+            <TextView
+                android:id="@+id/login_user_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/login_label_username" />
+
+            <EditText
+                android:id="@+id/personal_login_user"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/login_user_input"
+                android:hint="请输入账号"
+                android:inputType="text"
+                android:paddingLeft="10dp"
+                android:text="wlvswb" >
+            </EditText>
+
+         	 <Button
+                android:id="@+id/personal_login_btn_more_pop"
+                android:layout_width="10dp"
+                android:layout_height="8dp"
+                android:layout_toRightOf="@id/personal_login_user"
+            	android:layout_alignTop="@id/personal_login_user"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                 android:layout_weight="1"
+                android:background="@drawable/login_input_arrow" />   
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/login_password_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_user_layout"
+            android:layout_marginTop="3dp"
+            android:text="@string/login_label_password" />
+        <EditText
+            android:id="@+id/personal_login_pwd"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_password_input"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:text="$RFV4rfv" />
+
+        <Button
+            android:id="@+id/personal_login_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignRight="@id/personal_login_pwd"
+            android:layout_below="@id/personal_login_pwd"
+            android:background="@drawable/login_button_select"
+            android:text="@string/login_label_signin" />
+    </RelativeLayout>
+    
+   <RelativeLayout 
+    	android:layout_width="fill_parent"
+   	 	android:layout_height="wrap_content" >
+       <TextView  android:id="@+id/register_link"
+         android:text="@string/login_register_link"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="15dp"
+         android:textColor="#888"
+         android:textColorLink="#FF0066CC" />
+      <ImageView 
+        android:id="@+id/logo"
+        android:src="@drawable/bbslogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="25dp" />
+	</RelativeLayout>
+</LinearLayout>

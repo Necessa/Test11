@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/addfollow_relativeLayout01"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/addfollow_allBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="12dp"
+            android:text="All" />
+
+        <Button
+            android:id="@+id/addfollow_searchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="12dp"
+            android:text="Search" />
+
+        <TextView
+            android:id="@+id/addfollow_title"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/addfollow_searchBtn"
+            android:layout_toRightOf="@id/addfollow_allBtn" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/addfollow_relativeLayout02"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/addfollow_relativeLayout01"
+        android:orientation="horizontal" >
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/addfollow_btn1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="部门组织 [部门][团体]" />
+
+                <Button
+                    android:id="@+id/addfollow_btn2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="信息论坛 [论坛][信息]" />
+
+                <Button
+                    android:id="@+id/addfollow_btn3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="我们的家 [院系]" />
+
+                <Button
+                    android:id="@+id/addfollow_btn4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="出国留学 [飞跃]" />
+
+                <Button
+                    android:id="@+id/addfollow_btn5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="学术科学 [技术][科学][学术]" />
+            </LinearLayout>
+        </HorizontalScrollView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/addfollow_relativeLayout03"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/addfollow_relativeLayout02" >
+
+        <ListView
+            android:id="@+id/addfollow_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</RelativeLayout>
