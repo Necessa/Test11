@@ -10,10 +10,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.ustc.tabs.MyApplication;
 
 public class LoginAsyncTask extends AsyncTask<String, String, String> {
+	private static final String TAG = "LoginAsyncTask";
 	private LoginAsyncTaskInterface delegate = null;
 	private MyApplication app = null;
 	public LoginAsyncTask(MyApplication app,LoginAsyncTaskInterface delegate){
@@ -37,7 +39,6 @@ public class LoginAsyncTask extends AsyncTask<String, String, String> {
 			connection.setUseCaches(false);  
 			connection.setInstanceFollowRedirects(false);  
 			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");  
-			//            	connection.setRequestProperty("Cookie", sessionId[0]);
 			connection.connect();  
 
 			DataOutputStream out = new DataOutputStream(connection.getOutputStream());  
@@ -64,7 +65,7 @@ public class LoginAsyncTask extends AsyncTask<String, String, String> {
 				}
 				String html = sb.toString();
 				if(html.startsWith("0")){//µÇÂ¼²»³É¹¦
-
+					Log.v(TAG, "µÇÂ¼Ê§°Ü!");
 				}else{
 					Pattern patternNum = Pattern.compile("utmpnum=([0-9]+)");
 					Pattern patternKey = Pattern.compile("utmpkey=([0-9]+)");
@@ -87,7 +88,6 @@ public class LoginAsyncTask extends AsyncTask<String, String, String> {
 				}
 				is.close();  
 				br.close(); 
-				
 			}
 		} catch (Exception e) {  
 			e.printStackTrace();  
@@ -101,7 +101,7 @@ public class LoginAsyncTask extends AsyncTask<String, String, String> {
 	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
-		delegate.loginSuccess();
+		delegate.processSuccess();
 	}
 
 	@Override

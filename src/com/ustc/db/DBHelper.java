@@ -43,7 +43,9 @@ public class DBHelper extends SQLiteOpenHelper {
 		final String CREATE_TABLE_board = "CREATE TABLE if not exists " + BoardTableDao.TABLE_NAME +  
 				" (" + BoardTableDao.ID_COLUMN + " integer primary key autoincrement, " +  
 				BoardTableDao.NAME_COLUMN + " text not null, " +  
+				BoardTableDao.TITLE_COLUMN + " text not null, " + 
 				BoardTableDao.SECTION_COLUMN + " text not null, " +  
+				BoardTableDao.SECTIONLINK_COLUMN + " text not null, " + 
 				BoardTableDao.LINK_COLUMN + " integer);";
 		
 		db.execSQL(CREATE_TABLE_user);

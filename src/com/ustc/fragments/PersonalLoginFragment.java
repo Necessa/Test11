@@ -18,8 +18,8 @@ import com.ustc.tabs.MainActivity;
 import com.ustc.tabs.MyApplication;
 import com.ustc.tabs.MyFollowTabFragment;
 import com.ustc.tabs.PersonalTabFragment;
-import com.ustc.thread.LoginAsyncTask;
 import com.ustc.thread.LoginAsyncTaskInterface;
+import com.ustc.thread.LoginAsyncTask;
 
 public class PersonalLoginFragment extends Fragment implements LoginAsyncTaskInterface{
 	public static final String TAG = "PersonalLoginFragment";
@@ -89,7 +89,7 @@ public class PersonalLoginFragment extends Fragment implements LoginAsyncTaskInt
 	}
 
 	@Override
-	public void loginSuccess() {//登录成功会执行该方法
+	public void processSuccess() {//登录成功会执行该方法
 		// TODO Auto-generated method stub
 		if(app.getCookie("utmpkey") != null){//如果登录成功，放入数据库
 			UserTableDao dao = new UserTableDao(getActivity());
@@ -104,4 +104,5 @@ public class PersonalLoginFragment extends Fragment implements LoginAsyncTaskInt
 			pwd.setText("");
 		}
 	}
+
 }

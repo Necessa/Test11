@@ -14,7 +14,7 @@ import com.ustc.fragments.TopTenFragment;
 
 //topten的根Fragment，只是一个container
 public class TopTenTabFragment extends Fragment{
-	public static final String TAG = "TopTenTabFragment";
+	private static final String TAG = "TopTenTabFragment";
 	public static FragmentManager childFm;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

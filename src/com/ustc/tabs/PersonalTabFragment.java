@@ -12,9 +12,7 @@ import android.view.ViewGroup;
 
 import com.ustc.USTCer.R;
 import com.ustc.fragments.MeFragment;
-import com.ustc.fragments.MyFollowFragment;
 import com.ustc.fragments.PersonalLoginFragment;
-import com.ustc.thread.LoginThread;
 
 //个人中心的根View只是一个container
 public class PersonalTabFragment extends Fragment {

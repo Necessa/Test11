@@ -15,7 +15,9 @@ public class BoardTableDao {
 	public static final String TABLE_NAME = "boards";
 	public static final String ID_COLUMN = "_id";
 	public static final String NAME_COLUMN = "name";
+	public static final String TITLE_COLUMN = "title";
 	public static final String SECTION_COLUMN = "section";
+	public static final String SECTIONLINK_COLUMN = "sectionLink";
 	public static final String LINK_COLUMN = "link";
 	
 	private static DBHelper helper;
@@ -25,13 +27,15 @@ public class BoardTableDao {
 		helper = new DBHelper(cxt);
 	}
 	
-	public long insert(String name, String section, String link){
+	public long insert(String name,String title, String section,String sectionLink, String link){
 		Log.v(TAG, "insert");
 		SQLiteDatabase db = helper.getWritableDatabase();
 		
 		ContentValues values = new ContentValues();
 		values.put(NAME_COLUMN, name);
+		values.put(TITLE_COLUMN, title);
 		values.put(SECTION_COLUMN, section);
+		values.put(SECTIONLINK_COLUMN, sectionLink);
 		values.put(LINK_COLUMN, link);
 	
 		long id = db.insert(TABLE_NAME, null, values);
@@ -49,11 +53,13 @@ public class BoardTableDao {
 		return num;
 	}
 	
-	public int update(String name, String section,String link){
+	public int update(String name, String title, String section,String sectionLink, String link){
 		Log.v(TAG, "update");
 		SQLiteDatabase db = helper.getWritableDatabase();
 		ContentValues values = new ContentValues();
+		values.put(TITLE_COLUMN, title);
 		values.put(SECTION_COLUMN, section);
+		values.put(SECTIONLINK_COLUMN, sectionLink);
 		values.put(LINK_COLUMN, link);
 		int num = db.update(TABLE_NAME, values, NAME_COLUMN + "=?", new String[]{name});
 		db.close();
@@ -66,11 +72,12 @@ public class BoardTableDao {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_NAME, null, NAME_COLUMN + "=?", new String[]{name}, null, null, null);
 		while(cursor.moveToNext()){
-			int id = cursor.getInt(cursor.getColumnIndex(ID_COLUMN));
 			String n = cursor.getString(cursor.getColumnIndex(NAME_COLUMN));
+			String title = cursor.getString(cursor.getColumnIndex(TITLE_COLUMN));
 			String sec = cursor.getString(cursor.getColumnIndex(SECTION_COLUMN));
+			String secLink = cursor.getString(cursor.getColumnIndex(SECTIONLINK_COLUMN));
 			String link = cursor.getString(cursor.getColumnIndex(LINK_COLUMN));
-			Board u = new Board(n,sec,link);
+			Board u = new Board(n,title,sec,secLink,link);
 			list.add(u);
 		}
 		cursor.close();
@@ -85,11 +92,12 @@ public class BoardTableDao {
 		
 		Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
 		while(cursor.moveToNext()){
-			int id = cursor.getInt(cursor.getColumnIndex(ID_COLUMN));
 			String n = cursor.getString(cursor.getColumnIndex(NAME_COLUMN));
+			String title = cursor.getString(cursor.getColumnIndex(TITLE_COLUMN));
 			String sec = cursor.getString(cursor.getColumnIndex(SECTION_COLUMN));
+			String secLink = cursor.getString(cursor.getColumnIndex(SECTIONLINK_COLUMN));
 			String link = cursor.getString(cursor.getColumnIndex(LINK_COLUMN));
-			Board u = new Board(n,sec,link);
+			Board u = new Board(n,title,sec,secLink,link);
 			list.add(u);
 		}
 		cursor.close();

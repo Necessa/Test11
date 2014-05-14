@@ -6,7 +6,7 @@ public class TopTenItem {
 	private String author;
 	private String hot;
 	private String department;
-	
+	private String url;
 	public TopTenItem(){
 		
 	}
@@ -34,8 +34,7 @@ public class TopTenItem {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-	//###############Õı—Û
-	private String url;
+	
 	public String getUrl()
 	{
 		return url;
@@ -44,5 +43,4 @@ public class TopTenItem {
 	{
 		url=ss;
 	}
-	//#################
 }

@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.ustc.USTCer.R;
 import com.ustc.fragments.MyFollowFragment;
 import com.ustc.fragments.PersonalLoginFragment;
-import com.ustc.thread.LoginThread;
 
 public class MyFollowTabFragment extends Fragment {
 	public static final String TAG = "MyFollowTabFragment";
