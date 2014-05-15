@@ -33,8 +33,6 @@ public class MainActivity extends FragmentActivity implements OnTabChangeListene
 		fm = getSupportFragmentManager();
 		app = (MyApplication)getApplication();
 		
-		initUrls();
-		
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, fm, R.id.realtabcontent);
 
@@ -43,28 +41,13 @@ public class MainActivity extends FragmentActivity implements OnTabChangeListene
 		mTabHost.addTab(mTabHost.newTabSpec("myfollow").setIndicator("我的收藏"),
 				MyFollowTabFragment.class, null);
 		mTabHost.addTab(mTabHost.newTabSpec("personal").setIndicator("我"),
-				PersonalTabFragment.class, null);
+				MeTabFragment.class, null);
 		
 		mTabHost.setCurrentTab(0);
 		mTabHost.setOnTabChangedListener(this);  
 	}
 	
-	private void initUrls(){
-		SharedPreferences sharedPreferences = getSharedPreferences("urls",0);
-		Editor editor = sharedPreferences.edit();
-		String url = null;
-		if((url = sharedPreferences.getString("topten_url", "default")) == "default"){
-			url = "http://bbs.ustc.edu.cn/cgi/bbstop10";
-			editor.putString("topten_url", url);  
-            // 一定要提交  
-            editor.commit();  
-		}
-		if((url = sharedPreferences.getString("url_prefix", "default")) == "default"){
-			url = "http://bbs.ustc.edu.cn/cgi/";
-			editor.putString("url_prefix", url);  
-            editor.commit();  
-		}
-	}
+	
 	
 	@Override
 	public void onTabChanged(String tabId) {

@@ -5,18 +5,15 @@ import java.util.List;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.ustc.USTCer.R;
-import com.ustc.model.Board;
 
-public class MyFollowAdapter extends ArrayAdapter<Board> {
+public class BoardSectionApater extends ArrayAdapter<String> {
 	
-	public MyFollowAdapter(Context context, int textViewResourceId, List<Board> objects) {
+	public BoardSectionApater(Context context, int textViewResourceId, List<String> objects) {
 		super(context, textViewResourceId, objects);
 	}
 
@@ -30,15 +27,12 @@ public class MyFollowAdapter extends ArrayAdapter<Board> {
 		View view;
 		if (convertView == null) {
 			//º”‘ÿ≤ºæ÷
-			view = LayoutInflater.from(getContext()).inflate(R.layout.myfollow_listview_item, null);
+			view = LayoutInflater.from(getContext()).inflate(R.layout.addfollow_section_listview_item, null);
 		} else {
 			view = convertView;
 		}
-		TextView name = (TextView) view.findViewById(R.id.myFollow_listview_item_name);
-		TextView sec = (TextView) view.findViewById(R.id.myFollow_listview_item_sec);
-		
-		name.setText(getItem(position).getName());
-		sec.setText(getItem(position).getSection());
+		Button btn = (Button) view.findViewById(R.id.addfollow_section_item_btn);
+		btn.setText(getItem(position));
 		
 		return view;
 	}

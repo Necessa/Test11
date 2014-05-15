@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ustc.USTCer.R;
 import com.ustc.listview.adpters.MyAdapter;
@@ -32,24 +33,19 @@ public class TopTenFragment extends Fragment implements AsyncResponse{
 	private static final String TAG = "TopTenFragment";
 	private ListView listview;
 	private  ArrayList<TopTenItem> listData = new ArrayList<TopTenItem>();
-	private boolean dataIsReady = false;
 	SharedPreferences sharedPreferences = null;
 	Editor editor = null;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		//同onCreateView一样，开始也执行两次
 		Log.v(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		//listData数据应该放在onCreate中，而不是onCreateView，因为onCreate只会执行一次，而onCreateView在每次切换时都会执行一次
-		
 		SharedPreferences sharedPreferences = getActivity().getSharedPreferences("urls",0);//所有的url都存到urls.xml文件中
-		String url = sharedPreferences.getString("topten_url", "default");
-		if(! url.equals("default")){
-			loadHtmlThread newThread = new loadHtmlThread(getActivity(),listData);
-			newThread.delegate = this;
-			newThread.execute(url);
-		}
+		String url = sharedPreferences.getString("topten_url", null);
+		loadHtmlThread newThread = new loadHtmlThread(getActivity(),listData);
+		newThread.delegate = this;
+		newThread.execute(url);
 	}
 	
 	/*AysncTask与Thread，Runnable的区别：
@@ -79,11 +75,12 @@ public class TopTenFragment extends Fragment implements AsyncResponse{
                 String url = params[0];
                 doc = Jsoup.parse(new URL(url), 5000);
      			Elements trs = doc.select("tr");
-     			String url_prefix = cxt.getSharedPreferences("urls",0).getString("url_prefix", "http://bbs.ustc.edu.cn/cgi/");
+     			String url_prefix = cxt.getSharedPreferences("urls",0).getString("url_prefix", null);
      			for(Element tr : trs){
      				Elements tds = tr.select("td");
      				if(tds.size() <= 0)
      					continue;
+     				
      				TopTenItem item = new TopTenItem();
      				item.setTitle(tds.get(2).getElementsByTag("a").html().trim());
      				item.setHot(tds.get(4).html().trim());
@@ -91,9 +88,8 @@ public class TopTenFragment extends Fragment implements AsyncResponse{
      				item.setDepartment(tds.get(1).getElementsByTag("a").html().trim());
      				String s = tds.get(2).getElementsByTag("a").attr("href");
      				item.setUrl(url_prefix + s);
+     				
      				listData.add(item);
-     				Log.v("网址", url_prefix + s);
-     				//############
      			}
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -107,18 +103,12 @@ public class TopTenFragment extends Fragment implements AsyncResponse{
             // TODO Auto-generated method stub
             super.onPostExecute(result);
             delegate.processFinish();
-//            bar.dismiss();
         }
 
         @Override
         protected void onPreExecute() {
             // TODO Auto-generated method stub
             super.onPreExecute();
-//            bar = new ProgressDialog(getActivity());
-//            bar.setMessage("加载中····");
-//            bar.setIndeterminate(true);
-//            bar.setCancelable(true);
-//            bar.show();
         }
 	}
 	
@@ -126,7 +116,6 @@ public class TopTenFragment extends Fragment implements AsyncResponse{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		
 		Log.v(TAG, "onCreateView");
 		//每次切换时都会执行onCreateView,新填充一个View v，但onCreate只会执行一次
 		View v = LayoutInflater.from(getActivity()).inflate(R.layout.topten,
@@ -143,12 +132,7 @@ public class TopTenFragment extends Fragment implements AsyncResponse{
 			    changeToContent(url);
 			}
 		});
-		//listData一定要放在onCreate中，onCreate方法只会在这个Fragment创建时才会执行一次。这样保证listData只会初始化一次
-		//但是,设置listview数据初始化一定要放在onCreateView中
-		//因为可能执行到onCreateView时listData还没加载好，这时listData为null.因此这里要等到listData初始化完成
-		if(dataIsReady == true && listData.size() > 0){
-			processFinish();
-		}
+
 		return v;
 	}
 
@@ -170,10 +154,15 @@ public class TopTenFragment extends Fragment implements AsyncResponse{
 	
 	@Override
 	public void processFinish() {
-		// TODO Auto-generated method stub
-		dataIsReady = true;
-		ListAdapter adapter = new MyAdapter(getActivity(), 0, listData);
-        listview.setAdapter(adapter);
+		//listData一定要放在onCreate中，onCreate方法只会在这个Fragment创建时才会执行一次。这样保证listData只会初始化一次
+		//但是,设置listview数据初始化一定要放在onCreateView中
+		//因为可能执行到onCreateView时listData还没加载好，这时listData为null.因此这里要等到listData初始化完成
+		if(listData.size() == 0){
+			Toast.makeText(getActivity(), "获取十大数据失败!", 0).show();
+		}else{
+			ListAdapter adapter = new MyAdapter(getActivity(), 0, listData);
+	        listview.setAdapter(adapter);
+		}
 	}
 }
 interface AsyncResponse {

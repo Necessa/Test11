@@ -1,6 +1,8 @@
 package com.ustc.db;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.ustc.model.Board;
+import com.ustc.model.BoardSection;
 
 public class BoardTableDao {
 	private static final String TAG = "BoardTable";
@@ -79,6 +82,36 @@ public class BoardTableDao {
 			String link = cursor.getString(cursor.getColumnIndex(LINK_COLUMN));
 			Board u = new Board(n,title,sec,secLink,link);
 			list.add(u);
+		}
+		cursor.close();
+		db.close();
+		return list;
+	}
+	
+	public ArrayList<String[]> queryBySec(String sec){
+		Log.v(TAG, "queryBySec");
+		ArrayList<String[]> list = new ArrayList<String[]>();
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Cursor cursor = db.query(TABLE_NAME, new String[]{NAME_COLUMN,TITLE_COLUMN,LINK_COLUMN}, SECTION_COLUMN + "=?", new String[]{sec}, null, null, null);
+		while(cursor.moveToNext()){
+			String name = cursor.getString(cursor.getColumnIndex(NAME_COLUMN));
+			String title = cursor.getString(cursor.getColumnIndex(TITLE_COLUMN));
+			String link = cursor.getString(cursor.getColumnIndex(LINK_COLUMN));
+			list.add(new String[]{name,title,link});
+		}
+		cursor.close();
+		db.close();
+		return list;
+	}
+	
+	public ArrayList<String> fetchSections(){
+		Log.v(TAG, "fetchSections");
+		ArrayList<String> list = new ArrayList<String>();
+		SQLiteDatabase db = helper.getReadableDatabase();
+		
+		Cursor cursor = db.query(true,TABLE_NAME, new String[]{SECTION_COLUMN}, null, null, null, null, null, null);
+		while(cursor.moveToNext()){
+			list.add(cursor.getString(cursor.getColumnIndex(SECTION_COLUMN)));
 		}
 		cursor.close();
 		db.close();

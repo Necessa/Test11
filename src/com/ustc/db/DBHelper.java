@@ -19,7 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	//数据库名称，可以包含多个数据表
 	private static final String DATABASE_NAME = "bbsdb.db";
 	
-	public static final int DATABASE_VERSION = 1;
+	public static final int DATABASE_VERSION = 3;
 
 	/* 构造方法，调用父类SQLiteOpenHelper的构造函数 */
 	/* 参1：上下文环境；参2:数据库名称(以.db结尾) ; 参3：游标工厂(默认为null) ; 参4：代表使用数据库模型版本的证书*/
@@ -48,9 +48,14 @@ public class DBHelper extends SQLiteOpenHelper {
 				BoardTableDao.SECTIONLINK_COLUMN + " text not null, " + 
 				BoardTableDao.LINK_COLUMN + " integer);";
 		
+		final String CREATE_TABLE_USERBOARD = "CREATE TABLE if not exists " + UserBoardTableDao.TABLE_NAME +  
+				" (" + UserBoardTableDao.ID_COLUMN + " integer primary key autoincrement, " +  
+				UserBoardTableDao.USER_COLUMN + " text not null, " +  
+				UserBoardTableDao.BOARDTITLE_COLUMN + " text not null);";
+		
 		db.execSQL(CREATE_TABLE_user);
 		db.execSQL(CREATE_TABLE_board);
-		
+		db.execSQL(CREATE_TABLE_USERBOARD);
 
 	}
 
@@ -60,8 +65,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// TODO 更改数据库版本的操作
 		Log.v(TAG, "onUpgrade");
-//		db.execSQL("DROP TABLE IF EXISTS " + UserTable.TABLE_TABLE);
-//		db.execSQL("DROP TABLE IF EXISTS " + BoardTable.TABLE_TABLE);
+		
 	}
 
 	/* 打开数据库执行的函数 */

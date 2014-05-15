@@ -15,7 +15,9 @@ import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences.Editor;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -33,10 +35,8 @@ import com.ustc.thread.LoginAsyncTaskInterface;
 public class MyApplication extends Application implements LoginAsyncTaskInterface{
 	private static final String TAG = "MyApplication";
     private static MyApplication mInstance = null;
-    public String user = "";
-    public String passwd = "";
     
-    //用于保存用户登录的状态，如session,cookie
+    //用于保存用户登录的状态，有utmpnum, utmpkey, utmpuserid
     private Map<String,String> cookies = new HashMap<String,String>();   
     
     public String getCookie(String key){
@@ -57,9 +57,34 @@ public class MyApplication extends Application implements LoginAsyncTaskInterfac
     public void onCreate() {
 	    super.onCreate();
 		mInstance = this;
+		initUrls();
 		checkNetwork();
 		initData();
 	}
+	
+	private void initUrls(){
+		SharedPreferences sharedPreferences = getSharedPreferences("urls",0);
+		Editor editor = sharedPreferences.edit();
+		String url = null;
+		if((url = sharedPreferences.getString("topten_url", null)) == null){
+			url = "http://bbs.ustc.edu.cn/cgi/bbstop10";
+			editor.putString("topten_url", url);  
+            // 一定要提交  
+            editor.commit();  
+		}
+		if((url = sharedPreferences.getString("url_prefix", null)) == null){
+			url = "http://bbs.ustc.edu.cn/cgi/";
+			editor.putString("url_prefix", url);  
+            editor.commit();  
+		}
+		
+		if((url = sharedPreferences.getString("url_login", null)) == null){
+			url = "http://bbs.ustc.edu.cn/cgi/bbslogin";
+			editor.putString("url_login", url);  
+            editor.commit();  
+		}
+	}
+	
 	private void checkNetwork(){
 		ConnectivityManager mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
@@ -118,9 +143,8 @@ public class MyApplication extends Application implements LoginAsyncTaskInterfac
 		UserTableDao dao = new UserTableDao(this);
 		ArrayList<User> list = dao.fetchAll();
 		if(list.size() > 0){
-			user = list.get(0).getUsername();
-			passwd = list.get(0).getPassword();
-			//start是开启新线程
+			String user = list.get(0).getUsername();
+			String passwd = list.get(0).getPassword();
 			LoginAsyncTask newTask = new LoginAsyncTask(this,this);
 			newTask.execute(user,passwd);
 		}

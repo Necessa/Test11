@@ -11,11 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ustc.USTCer.R;
-import com.ustc.fragments.MyFollowFragment;
+import com.ustc.fragments.MeFragment;
 import com.ustc.fragments.UserLoginFragment;
 
-public class MyFollowTabFragment extends Fragment {
-	public static final String TAG = "MyFollowTabFragment";
+//个人中心的根View只是一个container
+public class MeTabFragment extends Fragment {
+	public static final String TAG = "PersonalTabFragment";
 	public static FragmentManager childFm;
 	
 	@Override
@@ -26,13 +27,15 @@ public class MyFollowTabFragment extends Fragment {
 		childFm = getChildFragmentManager();
 	}
 	
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		//这个personal_tab_fragment.xml是一个container，只有一个Layout，具体内容由不同的Fragment提供
 		Log.v(TAG, "onCreateView");
-		View v = LayoutInflater.from(getActivity()).inflate(R.layout.tab,
-				null);
+		View v = LayoutInflater.from(getActivity()).inflate(R.layout.tab,null);
 		initContent();
 		return v;
 	}
@@ -48,9 +51,9 @@ public class MyFollowTabFragment extends Fragment {
 				tag = "personalLoginFragment";
 			}
 		}else{
-			if(childFm.findFragmentByTag("myFollowFragment") == null){
-				f = new MyFollowFragment();
-				tag = "myFollowFragment";
+			if(childFm.findFragmentByTag("meFragment") == null){
+				f = new MeFragment();
+				tag = "meFragment";
 			}
 		}
 		//加具体内容,添加一个Fragment
