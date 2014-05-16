@@ -1,8 +1,6 @@
 package com.ustc.db;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.ustc.model.Board;
-import com.ustc.model.BoardSection;
 
 public class BoardTableDao {
 	private static final String TAG = "BoardTable";
@@ -108,7 +105,7 @@ public class BoardTableDao {
 		Log.v(TAG, "fetchSections");
 		ArrayList<String> list = new ArrayList<String>();
 		SQLiteDatabase db = helper.getReadableDatabase();
-		
+		//第一个参数true是设置distinct为
 		Cursor cursor = db.query(true,TABLE_NAME, new String[]{SECTION_COLUMN}, null, null, null, null, null, null);
 		while(cursor.moveToNext()){
 			list.add(cursor.getString(cursor.getColumnIndex(SECTION_COLUMN)));

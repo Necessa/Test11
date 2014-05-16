@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,23 +27,23 @@ import com.ustc.tabs.MyFollowTabFragment;
 public class MyFollowFragment extends Fragment {
 	public static final String TAG = "MyFollowFragment";
 	private ListView followListView;
+	private MyFollowAdapter adapter;
 	private TextView nofollowTextView;
 	private Button addBtn;
-	private ArrayList<Board> followData;
+	private ArrayList<Board> followData = new ArrayList<Board>();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		Log.v(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
-		followData = new ArrayList<Board>();
-		initFollowData();
 	}
 	
-	private void initFollowData(){
+	private void refreshFollowData(){
+		followData.clear();
 		MyApplication app = (MyApplication)getActivity().getApplication();
 		UserBoardTableDao dao = new UserBoardTableDao(getActivity());
-		followData = dao.query(app.getCookie("utmpuserid"));
+		followData.addAll(dao.query(app.getCookie("utmpuserid")));
 		Log.v(TAG, "followData initialized!");
 	}
 	
@@ -52,8 +51,10 @@ public class MyFollowFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		Log.v(TAG, "onCreateView");
+		
 		View v = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.myfollow,
 				null);
+		
 		addBtn = (Button) v.findViewById(R.id.myFollow_add);
 		nofollowTextView = (TextView) v.findViewById(R.id.myFollow_nofollow);
 		addBtn.setOnClickListener(new OnClickListener(){
@@ -65,8 +66,13 @@ public class MyFollowFragment extends Fragment {
 			}
 			
 		});
+		
 		followListView = (ListView) v.findViewById(R.id.myFollow_listview);
-
+		adapter = new MyFollowAdapter(getActivity(),0,followData);
+		followListView.setAdapter(adapter);
+		
+		refreshFollowData();//刷新listview数据
+		
 		if(followData.size() <= 0){//提示用户没有关注板块
 			//Gone是不显示也不占空，而invisible是不显示但占空
 			followListView.setVisibility(android.view.View.GONE);
@@ -74,8 +80,7 @@ public class MyFollowFragment extends Fragment {
 		}else{
 			nofollowTextView.setVisibility(android.view.View.GONE);
 			followListView.setVisibility( android.view.View.VISIBLE);
-			ListAdapter adapter = new MyFollowAdapter(getActivity(),0,followData);
-			followListView.setAdapter(adapter);
+			adapter.notifyDataSetChanged();//更新listview
 			followListView.setOnItemClickListener(new OnItemClickListener(){
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
@@ -85,6 +90,7 @@ public class MyFollowFragment extends Fragment {
 				}
 			});
 		}
+		
 		return v;
 	}
 	

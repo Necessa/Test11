@@ -2,16 +2,20 @@ package com.ustc.fragments;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.devsmart.android.ui.HorizontalListView;
@@ -31,6 +35,7 @@ public class AddFollowFragment extends Fragment{
 	private BoardAdapter boardAdapter;
 	private HorizontalListView secListview;
 	private ListView boardListview;
+	private Button backBtn;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +49,8 @@ public class AddFollowFragment extends Fragment{
 		BoardTableDao dao = new BoardTableDao(getActivity());
 		sections = dao.fetchSections();
 		for(String sec : sections){
-			boardData.put(sec, dao.queryBySec(sec));
+			ArrayList<String[]> board = dao.queryBySec(sec);
+			boardData.put(sec, board);
 		}
 		Log.v(TAG,"initData finish!");
 	}
@@ -58,14 +64,7 @@ public class AddFollowFragment extends Fragment{
 		secListview = (HorizontalListView)v.findViewById(R.id.addfollow_section_listview);
 		BoardSectionApater secAdapter = new BoardSectionApater(getActivity().getApplication(), 0, sections);
 		secListview.setAdapter(secAdapter);
-		
-		boardListview = (ListView) v.findViewById(R.id.addfollow_board_listview);
-		curBoardData = boardData.get(sections.get(0));
-		boardAdapter = new BoardAdapter(getActivity().getApplication(), 0, curBoardData);
-		boardListview.setAdapter(boardAdapter);
-		
 		secListview.setOnItemClickListener(new OnItemClickListener(){
-
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -73,11 +72,56 @@ public class AddFollowFragment extends Fragment{
 				changeBoardData(position);
 			}
 		});
+		
+		boardListview = (ListView) v.findViewById(R.id.addfollow_board_listview);
+		curBoardData.addAll(boardData.get(sections.get(0)));
+		boardAdapter = new BoardAdapter(getActivity().getApplication(), 0, curBoardData);
+		boardListview.setAdapter(boardAdapter);
+		
+		backBtn = (Button) v.findViewById(R.id.addfollow_allBtn);
+		backBtn.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				changeTo();
+			}
+		});
+		
 		return v;
 	}
 	
 	private void changeBoardData(int position){
-		curBoardData = boardData.get(sections.get(position));
+		/*List.clearÓëremoveAllÇø±ð£º
+		 * public void clear() {
+    	 * modCount++;
+    	 * // Let gc do its work
+    	 * for (int i = 0; i < size; i++)
+         *    elementData[i] = null;
+    	 *    size = 0;
+		 * }
+		 * 
+		 * public boolean removeAll(Collection<?> c) {
+    	 * boolean modified = false;
+    	 * Iterator<?> e = iterator();
+    	 * while (e.hasNext()) {
+         *   if (c.contains(e.next())) {
+         *     e.remove();
+         *     modified = true;
+         *   }
+         *  }
+         *  return modified;
+         * }
+		 */
+		curBoardData.clear();
+		Iterator<Entry<String, ArrayList<String[]>>> iterator = boardData.entrySet().iterator();
+		while (iterator.hasNext()) {
+		    Map.Entry<String, ArrayList<String[]>> entry = iterator.next();
+		    if(entry.getKey().equals(sections.get(position))){
+		    	curBoardData.addAll(entry.getValue());
+		    	break;
+		    }
+		}
+		
 		boardAdapter.notifyDataSetChanged();
 	}
 	

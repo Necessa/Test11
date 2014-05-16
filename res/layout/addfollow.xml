@@ -41,13 +41,11 @@
         android:layout_below="@id/addfollow_relativeLayout01"
         android:orientation="horizontal" >
 
-       <com.devsmart.android.ui.HorizontalListView
-  	android:id="@+id/addfollow_section_listview"
-  	android:layout_width="fill_parent"
-  	android:layout_height="wrap_content"
-  	android:background="#ddd"
-  />
-       
+        <com.devsmart.android.ui.HorizontalListView
+            android:id="@+id/addfollow_section_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#ddd" />
     </RelativeLayout>
 
     <RelativeLayout
