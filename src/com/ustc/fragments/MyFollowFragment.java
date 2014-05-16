@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.ustc.USTCer.R;
 import com.ustc.db.UserBoardTableDao;
+import com.ustc.fragments.AddFollowFragment.OnFollowDataChangedListener;
 import com.ustc.listview.adpters.MyFollowAdapter;
 import com.ustc.model.Board;
 import com.ustc.tabs.MyApplication;
@@ -37,6 +38,7 @@ public class MyFollowFragment extends Fragment {
 		// TODO Auto-generated method stub
 		Log.v(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
+		refreshFollowData();
 	}
 	
 	private void refreshFollowData(){
@@ -44,7 +46,7 @@ public class MyFollowFragment extends Fragment {
 		MyApplication app = (MyApplication)getActivity().getApplication();
 		UserBoardTableDao dao = new UserBoardTableDao(getActivity());
 		followData.addAll(dao.query(app.getCookie("utmpuserid")));
-		Log.v(TAG, "followData initialized!");
+		Log.v(TAG, "followData refreshFollowData!");
 	}
 	
 	@Override
@@ -71,8 +73,6 @@ public class MyFollowFragment extends Fragment {
 		adapter = new MyFollowAdapter(getActivity(),0,followData);
 		followListView.setAdapter(adapter);
 		
-		refreshFollowData();//刷新listview数据
-		
 		if(followData.size() <= 0){//提示用户没有关注板块
 			//Gone是不显示也不占空，而invisible是不显示但占空
 			followListView.setVisibility(android.view.View.GONE);
@@ -80,7 +80,6 @@ public class MyFollowFragment extends Fragment {
 		}else{
 			nofollowTextView.setVisibility(android.view.View.GONE);
 			followListView.setVisibility( android.view.View.VISIBLE);
-			adapter.notifyDataSetChanged();//更新listview
 			followListView.setOnItemClickListener(new OnItemClickListener(){
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
@@ -100,8 +99,19 @@ public class MyFollowFragment extends Fragment {
 		String toTag = "";
 		//from是当前Fragment，to是要切换的Fragment
 		from = MyFollowTabFragment.childFm.findFragmentByTag("myFollowFragment");
-		if((to = MyFollowTabFragment.childFm.findFragmentByTag("addFollowFragment")) == null)
+		if((to = MyFollowTabFragment.childFm.findFragmentByTag("addFollowFragment")) == null){
 			to = new AddFollowFragment();
+			((AddFollowFragment) to).setOnFollowDataChangedListener(new OnFollowDataChangedListener(){
+				@Override
+				public void onRefresh() {
+					// TODO Auto-generated method stub
+					refreshFollowData();//刷新listview数据
+					adapter.notifyDataSetChanged();//更新listview
+				}
+				
+			});
+		}
+			
 		toTag = "addFollowFragment";
 
 		MyFollowTabFragment.switchContent(from, to, toTag);

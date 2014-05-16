@@ -36,13 +36,17 @@ public class AddFollowFragment extends Fragment{
 	private HorizontalListView secListview;
 	private ListView boardListview;
 	private Button backBtn;
-	
+	private OnFollowDataChangedListener listener;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		Log.v(TAG, "onCreate");
 		initData();
+	}
+	
+	public void setOnFollowDataChangedListener(OnFollowDataChangedListener l) {
+		listener = l;
 	}
 	
 	private void initData(){
@@ -84,6 +88,7 @@ public class AddFollowFragment extends Fragment{
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				changeTo();
+				listener.onRefresh();
 			}
 		});
 		
@@ -134,10 +139,15 @@ public class AddFollowFragment extends Fragment{
 		if((to = MyFollowTabFragment.childFm.findFragmentByTag("myFollowFragment")) == null)
 			to = new MyFollowFragment();
 		toTag = "myFollowFragment";
-
+		
 		MyFollowTabFragment.switchContent(from, to, toTag);
 	}
-
-
-
+	
+	//用于提醒MyFollowFragment刷新视图
+	public interface OnFollowDataChangedListener{
+		public void onRefresh();
+	}
+	
 }
+
+
