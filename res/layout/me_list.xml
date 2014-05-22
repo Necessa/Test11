@@ -6,85 +6,53 @@
     android:orientation="vertical" >
     
     <ImageView
-        android:src="@drawable/me_image"
         android:id="@+id/MeImage"
-        android:maxWidth="150dp"
-        android:maxHeight="150dp"
+        android:maxWidth="80dp"
+        android:maxHeight="80dp"
+        android:contentDescription="个人头像"
         android:adjustViewBounds="true"
         android:layout_margin="5dp"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content" 
     />
-    <ListView android:layout_width="wrap_content"   
-          android:layout_height="wrap_content" 
-          android:layout_below="@id/MeImage" 
-          android:id="@+id/MeListView"  
-          /> 
-          
-   <TextView 
-        android:layout_height="wrap_content"   
-	    android:textSize="20sp"   
-	    android:layout_width="fill_parent"  
-	    android:layout_below="@id/MeListView"
-	    android:id="@+id/MeAction"  
-	    android:text="个人动态"
-        />
-    <HorizontalScrollView 
-    android:layout_width="fill_parent"
-    android:layout_below="@id/MeAction"
-    android:layout_height="fill_parent" >
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
+    <LinearLayout
+         android:layout_toRightOf="@id/MeImage"
+         android:layout_width="200dp"
+         android:layout_height="80dp"
+         android:id="@+id/me_id_layout"
+         android:orientation="vertical"
+        >
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/hello"
-                android:textSize="90sp" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/hello"
-                android:textSize="90sp" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/hello"
-                android:textSize="90sp" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/hello"
-                android:textSize="90sp" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/hello"
-                android:textSize="90sp" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/hello"
-                android:textSize="90sp" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/hello"
-                android:textSize="90sp" />
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            >
+			<TextView   
+			    android:layout_height="wrap_content"   
+			    android:layout_width="fill_parent"   
+			    android:textSize="20sp"
+			    android:id="@+id/myName"  
+			    />  
         </LinearLayout>
-    </ScrollView>
-</HorizontalScrollView>
+        <TextView   
+			    android:layout_height="wrap_content"   
+			    android:textSize="15sp"   
+			    android:layout_width="fill_parent"  
+			    android:text="活跃度"
+			    />
+	    <ProgressBar 
+	        android:id="@+id/pb"   
+	        android:layout_width="200dp"   
+	        android:layout_height="20dp"   
+	        style="?android:attr/progressBarStyleHorizontal"    
+	        android:max="100" 
+	     />
+	 </LinearLayout>
+	 <ListView android:layout_width="match_parent"   
+	          android:layout_height="wrap_content" 
+	          android:layout_below="@id/MeImage" 
+	          android:id="@+id/MeListView"  
+    /> 
+    
 </RelativeLayout>
