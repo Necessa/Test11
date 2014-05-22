@@ -8,7 +8,21 @@
 package com.ustc.USTCer;
 
 public final class R {
+    public static final class array {
+        public static final int entries_list_share=0x7f090002;
+        public static final int entries_list_theme=0x7f090000;
+        public static final int entryvalues_list_share=0x7f090003;
+        public static final int entryvalues_list_theme=0x7f090001;
+    }
     public static final class attr {
+    }
+    public static final class dimen {
+        /**  Preference fragment padding, bottom 
+         */
+        public static final int preference_fragment_padding_bottom=0x7f060000;
+        /**  Preference fragment padding, sides 
+         */
+        public static final int preference_fragment_padding_side=0x7f060001;
     }
     public static final class drawable {
         public static final int background_login=0x7f020000;
@@ -28,59 +42,66 @@ public final class R {
         public static final int progress_bar_states=0x7f02000e;
     }
     public static final class id {
-        public static final int LinearLayout01=0x7f080012;
-        public static final int MeAction=0x7f080015;
-        public static final int MeContentItem=0x7f080018;
-        public static final int MeImage=0x7f080013;
-        public static final int MeListView=0x7f080014;
-        public static final int MeTitleItem=0x7f080017;
-        public static final int RelativeLayout01=0x7f080016;
-        public static final int addfollow_allBtn=0x7f080001;
-        public static final int addfollow_board_listview=0x7f080007;
-        public static final int addfollow_board_listview_item_addBtn=0x7f080009;
-        public static final int addfollow_board_listview_item_name=0x7f080008;
-        public static final int addfollow_relativeLayout01=0x7f080000;
-        public static final int addfollow_relativeLayout02=0x7f080004;
-        public static final int addfollow_relativeLayout03=0x7f080006;
-        public static final int addfollow_searchBtn=0x7f080002;
-        public static final int addfollow_section_item_btn=0x7f08000a;
-        public static final int addfollow_section_listview=0x7f080005;
-        public static final int addfollow_title=0x7f080003;
-        public static final int login_div=0x7f08002a;
-        public static final int login_password_input=0x7f08002f;
-        public static final int login_user_input=0x7f08002c;
-        public static final int login_user_layout=0x7f08002b;
-        public static final int logo=0x7f080033;
-        public static final int me_articles=0x7f08000d;
-        public static final int me_info=0x7f080010;
-        public static final int me_lastloginIP=0x7f08000f;
-        public static final int me_lastlogintime=0x7f08000e;
-        public static final int me_life=0x7f08000c;
-        public static final int me_recent_listview=0x7f080011;
-        public static final int menu_settings=0x7f080034;
-        public static final int myFollow_add=0x7f080019;
-        public static final int myFollow_listview=0x7f08001a;
-        public static final int myFollow_listview_item_layout=0x7f08001c;
-        public static final int myFollow_listview_item_name=0x7f08001d;
-        public static final int myFollow_listview_item_sec=0x7f08001e;
-        public static final int myFollow_nofollow=0x7f08001b;
-        public static final int my_list_view=0x7f080020;
-        public static final int pb=0x7f080023;
-        public static final int personal_login_btn=0x7f080031;
-        public static final int personal_login_btn_more_pop=0x7f08002e;
-        public static final int personal_login_pwd=0x7f080030;
-        public static final int personal_login_user=0x7f08002d;
-        public static final int realtabcontent=0x7f08000b;
-        public static final int register_link=0x7f080032;
-        public static final int tab_root=0x7f08001f;
-        public static final int toptenContent_close=0x7f080022;
-        public static final int toptenContent_top=0x7f080021;
-        public static final int topten_item=0x7f080025;
-        public static final int topten_item_author=0x7f080028;
-        public static final int topten_item_department=0x7f080029;
-        public static final int topten_item_hot=0x7f080027;
-        public static final int topten_item_title=0x7f080026;
-        public static final int web_holder=0x7f080024;
+        public static final int LinearLayout01=0x7f0c0012;
+        public static final int MeAction=0x7f0c0015;
+        public static final int MeContentItem=0x7f0c0018;
+        public static final int MeImage=0x7f0c0013;
+        public static final int MeListView=0x7f0c0014;
+        public static final int MeTitleItem=0x7f0c0017;
+        public static final int RelativeLayout01=0x7f0c0016;
+        public static final int addfollow_allBtn=0x7f0c0001;
+        public static final int addfollow_board_listview=0x7f0c0007;
+        public static final int addfollow_board_listview_item_addBtn=0x7f0c0009;
+        public static final int addfollow_board_listview_item_name=0x7f0c0008;
+        public static final int addfollow_relativeLayout01=0x7f0c0000;
+        public static final int addfollow_relativeLayout02=0x7f0c0004;
+        public static final int addfollow_relativeLayout03=0x7f0c0006;
+        public static final int addfollow_searchBtn=0x7f0c0002;
+        public static final int addfollow_section_item_btn=0x7f0c000a;
+        public static final int addfollow_section_listview=0x7f0c0005;
+        public static final int addfollow_title=0x7f0c0003;
+        public static final int back_button=0x7f0c0020;
+        public static final int button_bar=0x7f0c001f;
+        public static final int login_div=0x7f0c002e;
+        public static final int login_password_input=0x7f0c0033;
+        public static final int login_user_input=0x7f0c0030;
+        public static final int login_user_layout=0x7f0c002f;
+        public static final int logo=0x7f0c0037;
+        public static final int me_articles=0x7f0c000d;
+        public static final int me_info=0x7f0c0010;
+        public static final int me_lastloginIP=0x7f0c000f;
+        public static final int me_lastlogintime=0x7f0c000e;
+        public static final int me_life=0x7f0c000c;
+        public static final int me_recent_listview=0x7f0c0011;
+        public static final int menu_settings=0x7f0c0038;
+        public static final int myFollow_add=0x7f0c0019;
+        public static final int myFollow_listview=0x7f0c001a;
+        public static final int myFollow_listview_item_layout=0x7f0c001c;
+        public static final int myFollow_listview_item_name=0x7f0c001d;
+        public static final int myFollow_listview_item_sec=0x7f0c001e;
+        public static final int myFollow_nofollow=0x7f0c001b;
+        public static final int my_list_view=0x7f0c0024;
+        public static final int next_button=0x7f0c0022;
+        public static final int pb=0x7f0c0027;
+        public static final int personal_login_btn=0x7f0c0035;
+        public static final int personal_login_btn_more_pop=0x7f0c0032;
+        public static final int personal_login_pwd=0x7f0c0034;
+        public static final int personal_login_user=0x7f0c0031;
+        public static final int realtabcontent=0x7f0c000b;
+        public static final int register_link=0x7f0c0036;
+        public static final int skip_button=0x7f0c0021;
+        public static final int tab_root=0x7f0c0023;
+        public static final int toptenContent_close=0x7f0c0026;
+        public static final int toptenContent_top=0x7f0c0025;
+        public static final int topten_item=0x7f0c0029;
+        public static final int topten_item_author=0x7f0c002c;
+        public static final int topten_item_department=0x7f0c002d;
+        public static final int topten_item_hot=0x7f0c002b;
+        public static final int topten_item_title=0x7f0c002a;
+        public static final int web_holder=0x7f0c0028;
+    }
+    public static final class integer {
+        public static final int preference_fragment_scrollbarStyle=0x7f070000;
     }
     public static final class layout {
         public static final int addfollow=0x7f030000;
@@ -92,33 +113,41 @@ public final class R {
         public static final int me_list_item=0x7f030006;
         public static final int myfollow=0x7f030007;
         public static final int myfollow_listview_item=0x7f030008;
-        public static final int tab=0x7f030009;
-        public static final int topten=0x7f03000a;
-        public static final int topten_content=0x7f03000b;
-        public static final int topten_item=0x7f03000c;
-        public static final int user_login=0x7f03000d;
+        public static final int preference_list_fragment=0x7f030009;
+        public static final int tab=0x7f03000a;
+        public static final int topten=0x7f03000b;
+        public static final int topten_content=0x7f03000c;
+        public static final int topten_item=0x7f03000d;
+        public static final int user_login=0x7f03000e;
     }
     public static final class menu {
-        public static final int main=0x7f070000;
+        public static final int main=0x7f0b0000;
     }
     public static final class raw {
-        public static final int boards=0x7f040000;
+        public static final int boards=0x7f050000;
     }
     public static final class string {
-        public static final int app_name=0x7f050000;
+        public static final int app_name=0x7f080003;
+        /**   Strings for possible PreferenceActivity Back/Next buttons 
+         */
+        public static final int back_button_label=0x7f080000;
         /**  个人动态 
          */
-        public static final int hello=0x7f050009;
-        public static final int hello_world=0x7f050001;
-        public static final int login_label_password=0x7f050006;
-        public static final int login_label_signin=0x7f050007;
+        public static final int hello=0x7f08000c;
+        public static final int hello_world=0x7f080004;
+        public static final int login_label_password=0x7f080009;
+        public static final int login_label_signin=0x7f08000a;
         /**  登录页面 
          */
-        public static final int login_label_username=0x7f050004;
-        public static final int login_pic_tip=0x7f050003;
-        public static final int login_register_link=0x7f050008;
-        public static final int login_username_hint=0x7f050005;
-        public static final int menu_settings=0x7f050002;
+        public static final int login_label_username=0x7f080007;
+        public static final int login_pic_tip=0x7f080006;
+        public static final int login_register_link=0x7f08000b;
+        public static final int login_username_hint=0x7f080008;
+        public static final int menu_settings=0x7f080005;
+        public static final int next_button_label=0x7f080001;
+        /**  Optional button to Skip a PreferenceActivity [CHAR LIMIT=20] 
+         */
+        public static final int skip_button_label=0x7f080002;
     }
     public static final class style {
         /** 
@@ -142,10 +171,13 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f060000;
+        public static final int AppBaseTheme=0x7f0a0000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f060001;
+        public static final int AppTheme=0x7f0a0001;
+    }
+    public static final class xml {
+        public static final int preferences=0x7f040000;
     }
 }

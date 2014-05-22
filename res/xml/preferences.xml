@@ -1,0 +1,51 @@
+<!-- 
+PreferenceScreen官方说明
+Represents a top-level Preference that is the root of a Preference hierarchy. 
+A PreferenceActivity points to an instance of this class to show the preferences. To instantiate this class, use createPreferenceScreen(Context).
+This class can appear in two places:
+When a PreferenceActivity points to this, it is used as the root and is not shown (only the contained preferences are shown).
+When it appears inside another preference hierarchy, it is shown and serves as the gateway to another screen of preferences (either by showing another screen of preferences as a Dialog or via a startActivity(android.content.Intent) from the getIntent()). 
+The children of this PreferenceScreen are NOT shown in the screen that this PreferenceScreen is shown in. Instead, a separate screen will be shown when this preference is clicked.
+相当于一个设置页的activity，在Android平台上面，我们可以使用PreferenceActivity基类去显示给用户一个选项设置的界面。在Android3.0或更高的版本上，可以使用PreferenceFragment类去实现这个功能。
+ -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="设置" >
+        <CheckBoxPreference
+            android:key="2g_3g_setting"
+            android:summary="如果关闭，则无法通过蜂窝移动联网"
+            
+            android:title="关闭蜂窝数据" android:enabled="true" android:selectable="true"/>
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="主题" >
+<!-- 
+android:entries 弹出的对话框中，列表显示的文本内容，注意哦，这里指定的是一个数组哦
+android:entryValues 与android:entries相对应的值
+ -->
+        <ListPreference
+            android:dialogTitle="请选择一项"
+            android:entries="@array/entries_list_theme"
+            android:entryValues="@array/entryvalues_list_theme"
+            android:key="theme_setting"
+            android:summary="选择主题设置"
+            android:title="改变主题" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="关于" > 
+        <Preference
+            android:summary="abc,edf"
+            android:title="关于作者"/>
+        
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="分享" >
+       <ListPreference
+            android:dialogTitle="分享至"
+            android:entries="@array/entries_list_share"
+            android:entryValues="@array/entryvalues_list_share"
+            android:key="theme_setting"
+            android:title="分享" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

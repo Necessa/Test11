@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="entries_list_theme">
+<item>Holo</item>
+<item>Holo深色</item>
+<item>Holo浅色</item>
+</string-array>
+
+<string-array name="entryvalues_list_theme">
+<item>Holo</item>
+<item>Holo_dark</item>
+<item>Holo_light</item>
+</string-array>
+
+<string-array name="entries_list_share">
+<item>微博</item>
+<item>人人</item>
+</string-array>
+
+<string-array name="entryvalues_list_share">
+<item>weibo</item>
+<item>renren</item>
+</string-array>
+
+</resources>

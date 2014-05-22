@@ -1,19 +1,18 @@
 package com.ustc.fragments;
 
-//////////////王洋
-//#################################
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.ustc.USTCer.R;
@@ -26,6 +25,7 @@ public class TopTenContentFragment extends Fragment{
 	private WebSettings settings;
 	private WebViewClient client;
 	private ProgressBar pb; //进度条
+	private Button closeBtn;
 	private String url;
 	private static boolean est = false;  //判断是否已经OnCreate过，主要是用在onKeyDown函数
 
@@ -42,8 +42,7 @@ public class TopTenContentFragment extends Fragment{
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v=LayoutInflater.from(getActivity())
-				.inflate(R.layout.topten_content, null);
+		View v = LayoutInflater.from(getActivity()).inflate(R.layout.topten_content, null);
 		webHolder = (WebView)v.findViewById(R.id.web_holder);
 
 		pb = (ProgressBar)v.findViewById(R.id.pb);
@@ -71,6 +70,15 @@ public class TopTenContentFragment extends Fragment{
 		});
 
 		webHolder.loadUrl(url);
+		
+		closeBtn = (Button) v.findViewById(R.id.toptenContent_close);
+		closeBtn.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				changeTo();
+			}
+		});
+		
 		return v;
 	}
 
@@ -97,19 +105,23 @@ public class TopTenContentFragment extends Fragment{
 		}  
 		else if(event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)   //只点击了一下，但是webView已经退到底
 		{
-			//切换fragement
-			Fragment from = null,to = null;
-			String toTag = "";
-			//from是当前Fragment，to是要切换的Fragment
-			from = TopTenTabFragment.childFm.findFragmentByTag("OneItem");
-			if((to = TopTenTabFragment.childFm.findFragmentByTag("topTenFragment")) == null)
-				to = new TopTenFragment();
-			toTag = "topTenFragment";
-			//from不再需要，所以销毁
-//			TopTenTabFragment.childFm.beginTransaction().replace(R.id.tab_root, to,toTag).commit();
-			TopTenTabFragment.switchContent(from,to,toTag);
+			changeTo();
 			return false;
 		}     
 		return false;
 	} 
+	
+	private static void changeTo(){
+		//切换fragement
+		Fragment from = null,to = null;
+		String toTag = "";
+		//from是当前Fragment，to是要切换的Fragment
+		from = TopTenTabFragment.childFm.findFragmentByTag("OneItem");
+		if((to = TopTenTabFragment.childFm.findFragmentByTag("topTenFragment")) == null)
+			to = new TopTenFragment();
+		toTag = "topTenFragment";
+		//from不再需要，所以销毁
+//		TopTenTabFragment.childFm.beginTransaction().replace(R.id.tab_root, to,toTag).commit();
+		TopTenTabFragment.switchContent(from,to,toTag);
+	}
 }

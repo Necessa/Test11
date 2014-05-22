@@ -3,9 +3,9 @@
     package="com.ustc.USTCer"
     android:versionCode="1"
     android:versionName="1.0" >
-
+<!-- 3.0 and later for Fragment-->
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="17" />
     <!-- 注意一定要在这里定义permission，之前没有定义这两个permission，以为在下面readPermission和writePermission中就相当于定义了，结果在另一个中始终访问说permission denial，检查了好久终于发现是这个问题....惨痛的教训 -->
  <!-- 

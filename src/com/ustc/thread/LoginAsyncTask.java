@@ -26,7 +26,7 @@ public class LoginAsyncTask extends AsyncTask<String, String, String> {
 	@Override
 	protected String doInBackground(String... params) {
 		// TODO Auto-generated method stub
-		String url = app.getSharedPreferences("urls", 0).getString("url_login", null);
+		String url = "http://bbs.ustc.edu.cn/cgi/bbslogin";
 		HttpURLConnection connection = null;
 		String user = params[0];
 		String pw = params[1];

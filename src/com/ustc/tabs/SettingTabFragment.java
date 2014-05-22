@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ustc.USTCer.R;
-import com.ustc.fragments.TopTenFragment;
+import com.ustc.fragments.SettingFragment;
 
 //topten的根Fragment，只是一个container
-public class TopTenTabFragment extends Fragment{
-	private static final String TAG = "TopTenTabFragment";
+public class SettingTabFragment extends Fragment{
+	private static final String TAG = "SettingTabFragment";
 	public static FragmentManager childFm;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,12 +38,11 @@ public class TopTenTabFragment extends Fragment{
 	
 	private void initContent(){
 		Fragment f = null;
-		if(childFm.findFragmentByTag("topTenFragment") == null){
-			f = new TopTenFragment();
+		if((f = childFm.findFragmentByTag("settingFragment")) == null){
+			f = new SettingFragment();
 			//加具体内容,添加一个Fragment，作为R.id.topten_tab_root的孩子
-			childFm.beginTransaction().add(R.id.tab_root, f, "topTenFragment").commit();
+			childFm.beginTransaction().add(R.id.tab_root, f, "settingFragment").commit();
 		}
-		
 	}
 	
 	public static void switchContent(Fragment from, Fragment to, String toTag) {

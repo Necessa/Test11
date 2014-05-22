@@ -9,8 +9,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,17 +30,19 @@ import com.ustc.tabs.TopTenTabFragment;
 public class TopTenFragment extends Fragment implements AsyncResponse{
 	private static final String TAG = "TopTenFragment";
 	private ListView listview;
+	private ListAdapter adapter;
 	private  ArrayList<TopTenItem> listData = new ArrayList<TopTenItem>();
-	SharedPreferences sharedPreferences = null;
-	Editor editor = null;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		Log.v(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		//listData数据应该放在onCreate中，而不是onCreateView，因为onCreate只会执行一次，而onCreateView在每次切换时都会执行一次
-		SharedPreferences sharedPreferences = getActivity().getSharedPreferences("urls",0);//所有的url都存到urls.xml文件中
-		String url = sharedPreferences.getString("topten_url", null);
+		
+//		SharedPreferences sharedPreferences = getActivity().getSharedPreferences("urls",0);//所有的url都存到urls.xml文件中
+//		String url = sharedPreferences.getString("topten_url", null);
+		
+		String url = "http://bbs.ustc.edu.cn/cgi/bbstop10";
 		loadHtmlThread newThread = new loadHtmlThread(getActivity(),listData);
 		newThread.delegate = this;
 		newThread.execute(url);
@@ -70,12 +70,11 @@ public class TopTenFragment extends Fragment implements AsyncResponse{
         
         @Override
         protected String doInBackground(String... params) {
-            // TODO Auto-generated method stub
             try {
                 String url = params[0];
                 doc = Jsoup.parse(new URL(url), 5000);
      			Elements trs = doc.select("tr");
-     			String url_prefix = cxt.getSharedPreferences("urls",0).getString("url_prefix", null);
+     			String url_prefix = "http://bbs.ustc.edu.cn/cgi/";
      			for(Element tr : trs){
      				Elements tds = tr.select("td");
      				if(tds.size() <= 0)
@@ -92,7 +91,6 @@ public class TopTenFragment extends Fragment implements AsyncResponse{
      				listData.add(item);
      			}
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return null;
@@ -115,13 +113,16 @@ public class TopTenFragment extends Fragment implements AsyncResponse{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		Log.v(TAG, "onCreateView");
 		//每次切换时都会执行onCreateView,新填充一个View v，但onCreate只会执行一次
 		View v = LayoutInflater.from(getActivity()).inflate(R.layout.topten,
 				null);
 		
 		listview = (ListView) v.findViewById(R.id.my_list_view);
+		if(listData.size() > 0){
+			adapter = new MyAdapter(getActivity(), 0, listData);
+	        listview.setAdapter(adapter);
+		}
 		listview.setOnItemClickListener(new OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -136,18 +137,12 @@ public class TopTenFragment extends Fragment implements AsyncResponse{
 		return v;
 	}
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onActivityCreated(savedInstanceState);
-	}
-
 	public void changeToContent(String url){
 		Fragment from = null,to = null;
 		String toTag = "";
 		//from是当前Fragment，to是要切换的Fragment
 		from = TopTenTabFragment.childFm.findFragmentByTag("topTenFragment");
-		to = new TopTenContentFragment(url);///www.bbs.ustc.edu.cn/cgi/sw?m=1";
+		to = new TopTenContentFragment(url);//www.bbs.ustc.edu.cn/cgi/sw?m=1";
 		toTag = "OneItem";
 		TopTenTabFragment.switchContent(from, to, toTag);
 	}
@@ -160,7 +155,7 @@ public class TopTenFragment extends Fragment implements AsyncResponse{
 		if(listData.size() == 0){
 			Toast.makeText(getActivity(), "获取十大数据失败!", 0).show();
 		}else{
-			ListAdapter adapter = new MyAdapter(getActivity(), 0, listData);
+			adapter = new MyAdapter(getActivity(), 0, listData);
 	        listview.setAdapter(adapter);
 		}
 	}

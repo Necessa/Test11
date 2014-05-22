@@ -15,24 +15,21 @@ import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
-import android.content.SharedPreferences.Editor;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.ustc.USTCer.R;
 import com.ustc.db.BoardTableDao;
-import com.ustc.db.UserTableDao;
 import com.ustc.model.Board;
-import com.ustc.model.User;
-import com.ustc.thread.LoginAsyncTask;
-import com.ustc.thread.LoginAsyncTaskInterface;
 
 
-public class MyApplication extends Application implements LoginAsyncTaskInterface{
+public class MyApplication extends Application{
 	private static final String TAG = "MyApplication";
     private static MyApplication mInstance = null;
     
@@ -57,38 +54,79 @@ public class MyApplication extends Application implements LoginAsyncTaskInterfac
     public void onCreate() {
 	    super.onCreate();
 		mInstance = this;
-		initUrls();
 		checkNetwork();
 		initData();
 	}
 	
-	private void initUrls(){
-		SharedPreferences sharedPreferences = getSharedPreferences("urls",0);
-		Editor editor = sharedPreferences.edit();
-		String url = null;
-		if((url = sharedPreferences.getString("topten_url", null)) == null){
-			url = "http://bbs.ustc.edu.cn/cgi/bbstop10";
-			editor.putString("topten_url", url);  
-            // 一定要提交  
-            editor.commit();  
+//	private void initUrls(){
+//		SharedPreferences sharedPreferences = getSharedPreferences("urls",0);
+//		Editor editor = sharedPreferences.edit();
+//		String url = null;
+//		if((url = sharedPreferences.getString("topten_url", null)) == null){
+//			url = "http://bbs.ustc.edu.cn/cgi/bbstop10";
+//			editor.putString("topten_url", url);  
+//            // 一定要提交  
+//            editor.commit();  
+//		}
+//		if((url = sharedPreferences.getString("url_prefix", null)) == null){
+//			url = "http://bbs.ustc.edu.cn/cgi/";
+//			editor.putString("url_prefix", url);  
+//            editor.commit();  
+//		}
+//		
+//		if((url = sharedPreferences.getString("url_login", null)) == null){
+//			url = "http://bbs.ustc.edu.cn/cgi/bbslogin";
+//			editor.putString("url_login", url);  
+//            editor.commit();  
+//		}
+//	}
+	
+	/**
+	 * 判断当前网络是否是3G网络
+	 */
+	public static boolean is3G(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+		if (activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+			return true;
 		}
-		if((url = sharedPreferences.getString("url_prefix", null)) == null){
-			url = "http://bbs.ustc.edu.cn/cgi/";
-			editor.putString("url_prefix", url);  
-            editor.commit();  
+		return false;
+	}
+
+	/**
+	 * 判断当前网络是否是wifi网络
+	 */
+	public static boolean isWifi(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+		if (activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+			return true;
 		}
-		
-		if((url = sharedPreferences.getString("url_login", null)) == null){
-			url = "http://bbs.ustc.edu.cn/cgi/bbslogin";
-			editor.putString("url_login", url);  
-            editor.commit();  
+		return false;
+	}
+
+	/**
+	 * 判断当前网络是否是2G网络
+	 */
+	public static boolean is2G(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+		if (activeNetInfo != null && (activeNetInfo.getSubtype() == TelephonyManager.NETWORK_TYPE_EDGE
+						|| activeNetInfo.getSubtype() == TelephonyManager.NETWORK_TYPE_GPRS || activeNetInfo
+						.getSubtype() == TelephonyManager.NETWORK_TYPE_CDMA)) {
+			return true;
 		}
+		return false;
 	}
 	
 	private void checkNetwork(){
 		ConnectivityManager mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-		if(mNetworkInfo == null){//如果无网络
+		
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean netClose = sp.getBoolean("2g_3g_setting", false);
+		
+		if(mNetworkInfo == null || (is2G(this) && netClose == true)){//如果无网络
 			Builder builder = new Builder(this);  
 			builder.setTitle("网络提示信息");  
 			builder.setMessage("网络不可用，如果继续，请先设置网络！");  
@@ -124,30 +162,17 @@ public class MyApplication extends Application implements LoginAsyncTaskInterfac
 			});  
 			builder.create();  
 			builder.show();  
-		}else{
 		}
 	}
-	
+
 	public void initData() {
-        initLogin();//初始化登录信息
-        
-        new Thread(new Runnable(){//初始化版本信息
+		new Thread(new Runnable(){//初始化版本信息
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				initBoard();
 			}
 		}).start();
-	}
-	public void initLogin(){
-		UserTableDao dao = new UserTableDao(this);
-		ArrayList<User> list = dao.fetchAll();
-		if(list.size() > 0){
-			String user = list.get(0).getUsername();
-			String passwd = list.get(0).getPassword();
-			LoginAsyncTask newTask = new LoginAsyncTask(this,this);
-			newTask.execute(user,passwd);
-		}
 	}
 
 	private void initBoard(){
@@ -164,7 +189,7 @@ public class MyApplication extends Application implements LoginAsyncTaskInterfac
 					if(arr.length == 5){
 						dao.insert(arr[0], arr[1], arr[2], arr[3], arr[4]);
 					}
- 				}
+				}
 			}
 		}  catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -173,11 +198,5 @@ public class MyApplication extends Application implements LoginAsyncTaskInterfac
 	}
 	public static MyApplication getInstance() {
 		return mInstance;
-	}
-
-	@Override
-	public void processSuccess() {
-		// TODO Auto-generated method stub
-		
 	}
 }

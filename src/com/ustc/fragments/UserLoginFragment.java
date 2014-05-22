@@ -1,5 +1,7 @@
 package com.ustc.fragments;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,18 +16,19 @@ import android.widget.Toast;
 
 import com.ustc.USTCer.R;
 import com.ustc.db.UserTableDao;
+import com.ustc.model.User;
 import com.ustc.tabs.MainActivity;
+import com.ustc.tabs.MeTabFragment;
 import com.ustc.tabs.MyApplication;
 import com.ustc.tabs.MyFollowTabFragment;
-import com.ustc.tabs.MeTabFragment;
-import com.ustc.thread.LoginAsyncTaskInterface;
 import com.ustc.thread.LoginAsyncTask;
+import com.ustc.thread.LoginAsyncTaskInterface;
 
 public class UserLoginFragment extends Fragment implements LoginAsyncTaskInterface{
 	public static final String TAG = "PersonalLoginFragment";
 	ImageView userLogo;
-	EditText user;
-	EditText pwd;
+	EditText uEditText;
+	EditText pwEditText;
 	Button loginButton;
 	private LoginAsyncTaskInterface me = null;
 	private String u = null;
@@ -34,12 +37,22 @@ public class UserLoginFragment extends Fragment implements LoginAsyncTaskInterfa
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		Log.v(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		me = this;
 		app = (MyApplication)getActivity().getApplication();
+		getUser();
 	}
+	
+	private void getUser(){
+		UserTableDao dao = new UserTableDao(getActivity());
+		ArrayList<User> users = dao.fetchAll();
+		if(users.size() > 0){//这里暂且就使用表中第一个用户，应该是获取最后一次登录的那个用户
+			u = users.get(0).getUsername();
+			pw = users.get(0).getPassword();
+		}
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -49,17 +62,15 @@ public class UserLoginFragment extends Fragment implements LoginAsyncTaskInterfa
 				null);
 		
 //		userLogo = (ImageView) v.findViewById(R.id.personal_login_image_logo);
-		user = (EditText) v.findViewById(R.id.personal_login_user);
-		pwd = (EditText) v.findViewById(R.id.personal_login_pwd);
-		loginButton = (Button) v.findViewById(R.id.personal_login_btn);
+		uEditText = (EditText) v.findViewById(R.id.personal_login_user);
+		uEditText.setText(u);
+		pwEditText = (EditText) v.findViewById(R.id.personal_login_pwd);
+		pwEditText.setText(pw);
 		
+		loginButton = (Button) v.findViewById(R.id.personal_login_btn);
 		loginButton.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				u = user.getText().toString();
-				pw = pwd.getText().toString();
-//					new LoginThread(app,u,pw).start();
 				LoginAsyncTask newTask = new LoginAsyncTask(app,me);
 				newTask.execute(u,pw);
 			}
@@ -101,7 +112,7 @@ public class UserLoginFragment extends Fragment implements LoginAsyncTaskInterfa
 			changeTo();//切换视图
 		}else{
 			Toast.makeText(getActivity(), "用户或密码错误!", 0).show();
-			pwd.setText("");
+			pwEditText.setText("");
 		}
 	}
 
